@@ -1,0 +1,40 @@
+﻿@model TemplateViewModel
+
+<form method="post"
+      data-ajax="true"
+      data-ajax-method="post"
+      data-ajax-complete="add">
+    <select id="template" asp-for="Slug">
+        <option value="_TwoHeaders">Two headers</option>
+        <option value="_ThreeImages">Three images</option>
+        <option value="_ImageOnTheRight">Image on the right</option>
+    </select>
+    <input id="test" type="button" value="Click" onclick="loadTemplate()" />
+</form>
+
+<form asp-action="Create" method="post">
+    <div id="UserContent"></div>
+    <input type="submit" class="btn btn-primary" value="Add" />
+</form>
+
+<script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
+    <script>
+            function loadTemplate() {
+                var t = document.getElementById("template");
+                var s = new Object();
+                s = t.options[t.selectedIndex].value;
+                $.ajax({
+                    type: "post",
+                    url: "@Url.Action("Load")",
+                    data: { templateName: s },
+                    success: function (response) {
+                        var element = document.createElement('div');
+                        $(element).html(response).appendTo($("#UserContent"))
+                },
+                failure: function (errMsg) {
+                    alert(errMsg);
+                }
+                })
+
+            };
+    </script>

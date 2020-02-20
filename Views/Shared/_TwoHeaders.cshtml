@@ -1,0 +1,9 @@
+﻿@model TemplateViewModel
+
+<h1>@Model.Slug</h1>
+<form asp-action="Create" method="post" class="active">
+    <label asp-for="MainHeader">Main header</label><br/>
+    <input asp-for="MainHeader" type="text"/><br />
+    <label asp-for="SubHeader">Sub header</label><br />
+    <input asp-for="SubHeader" type="text" /><br />
+</form>
