@@ -20,5 +20,10 @@ namespace Templating.ViewModels
         public bool IsShippingRequired { get; set; }
         public string Sku { get; set; }
         public string Slug { get; set; }
+
+        public void SetAttribute<T> (string _name, T value)
+        {
+            typeof(TemplateViewModel).GetProperty(_name).SetValue(this, value);
+        }
     }
 }
