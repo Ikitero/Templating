@@ -15,6 +15,7 @@ namespace Templating.Models
         {
             _context = context;
         }
+        public IEnumerable<Post> Posts => _context.Posts;
         public void CreatePost(string data)
         {
             var post = _context.Posts.OrderByDescending(p => p.Id).FirstOrDefault();

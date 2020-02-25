@@ -19,6 +19,13 @@ namespace Templating.Controllers
             _context = context;
         }
 
+        public IActionResult List()
+        {
+            _postRepository = new PostRepository(_context);
+            var post = _postRepository.Posts;
+            return View("List", post);
+        }
+
         public IActionResult AddingList()
         {
             return View();
@@ -40,24 +47,16 @@ namespace Templating.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(string data)
         {
-            _postRepository = new PostRepository(_context);
-            Post post = new Post();
-            await _context.Posts.AddAsync(post);
-            await _context.SaveChangesAsync();
-            _postRepository.CreatePost(data);
 
             if (ModelState.IsValid)
             {
-                //Template template = new Template();
-                //template.Slug = model.Slug;
-                //model.DateCreated = DateTime.Now;
-                //model.DateModified = DateTime.Now;
-                //string json = JsonConvert.SerializeObject(model);
-                //template.Json = json;
-                //_context.Templates.Add(template);
-                //await _context.SaveChangesAsync();
+                _postRepository = new PostRepository(_context);
+                Post post = new Post();
+                await _context.Posts.AddAsync(post);
+                await _context.SaveChangesAsync();
+                _postRepository.CreatePost(data);
             }
-            return View();
+            return View("Create");
         }
     }
 }

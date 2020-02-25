@@ -1,0 +1,10 @@
+﻿@model IEnumerable<Post>
+
+@foreach(var post in Model)
+{
+    <h2>Post N @post.Id</h2>
+    foreach(var template in post.Templates)
+    {
+        <h5>@template.Json</h5>
+    }
+}
