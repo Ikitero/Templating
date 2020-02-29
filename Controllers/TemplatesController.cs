@@ -22,8 +22,17 @@ namespace Templating.Controllers
         public IActionResult List()
         {
             _postRepository = new PostRepository(_context);
-            var post = _postRepository.Posts;
-            return View("List", post);
+            var post = _postRepository.Posts();
+            List<TemplateViewModel> models = new List<TemplateViewModel>();
+            foreach(var t in post)
+            {
+                foreach(var m in t.Templates)
+                {
+                    models.Add(JsonConvert.DeserializeObject<TemplateViewModel>(m.Json));
+                }
+            }
+            Tuple<List<Post>, List<TemplateViewModel>> model = new Tuple<List<Post>, List<TemplateViewModel>>(post, models);
+            return View("List", model);
         }
 
         public IActionResult AddingList()

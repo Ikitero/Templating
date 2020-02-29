@@ -1,10 +1,11 @@
-﻿@model IEnumerable<Post>
+﻿@model Tuple<List<Post>,List<TemplateViewModel>>
 
-@foreach(var post in Model)
+@foreach(var post in Model.Item1)
 {
     <h2>Post N @post.Id</h2>
-    foreach(var template in post.Templates)
+    @foreach(var template in post.Templates)
     {
-        <h5>@template.Json</h5>
+      <h5>@template.Slug</h5>
+       <partial name="_@template.Slug.ToString()" model="@Model.Item2.FirstOrDefault(m=>m.Slug==template.Slug)"></partial>
     }
 }

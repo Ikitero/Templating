@@ -15,7 +15,16 @@ namespace Templating.Models
         {
             _context = context;
         }
-        public IEnumerable<Post> Posts => _context.Posts;
+        public List<Post> Posts()
+        {
+            var posts = _context.Posts.ToList();
+            foreach(var post in posts)
+            {
+                post.Templates = _context.Templates.Where(t => t.PostId == post.Id).ToList<Template>();
+
+            }
+            return posts;
+        }
         public void CreatePost(string data)
         {
             var post = _context.Posts.OrderByDescending(p => p.Id).FirstOrDefault();
@@ -51,6 +60,7 @@ namespace Templating.Models
         private TemplateViewModel GetModel(List<string> lines, string formName, int index)
         {
             TemplateViewModel model = new TemplateViewModel();
+            model.Slug = formName;
             for (int i = index; i < lines.Count; i++)
             {
                 if (lines[i].Contains("templateName") && !lines[i].Contains(formName))
