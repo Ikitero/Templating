@@ -35,7 +35,6 @@
             data: { templateName: s },
             success: function (response) {
                 var element = document.createElement('div');
-
                 $(element).html(response).appendTo($("#UserContent"))
              },
              failure: function (errMsg) {
@@ -59,16 +58,15 @@
                 type: "post",
                 url: "@Url.Action("Create")",
                 data: { data: json },
-                    success: function(result) {
-                        alert("good:" + result);
+                success: function (result) {
+                    window.location.href = result.url;
                         },
                     failure: function (response) {
-                     alert("bad:" + response.d);
+                     alert("Somthing went wrong! " + response.d);
                 }
             })
     };
 </script>
-
 <script>
 $('#UserContent').on('click', 'a.remove_block', function(events){
    $(this).parents('div').eq(1).remove();

@@ -56,9 +56,8 @@ namespace Templating.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string data)
+        public async Task<JsonResult> Create(string data)
         {
-
             if (ModelState.IsValid)
             {
                 _postRepository = new PostRepository(_context);
@@ -67,7 +66,7 @@ namespace Templating.Controllers
                 await _context.SaveChangesAsync();
                 _postRepository.CreatePost(data);
             }
-            return RedirectToAction("List");
+            return Json(new { result = "Redirect", url = Url.Action("List", "Templates") });
         }
 
         public IActionResult Remove(int postId)
