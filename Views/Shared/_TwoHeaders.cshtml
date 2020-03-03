@@ -1,9 +1,10 @@
 ﻿@model TemplateViewModel
 
 @*<h1>@Model.Slug</h1>*@
-<form method="post" class="active" name="@Model.Slug">
-    <label asp-for="MainHeader">Main header</label><br/>
-    <input asp-for="MainHeader"/><br />
-    <label asp-for="SubHeader">Sub header</label><br />
-    <input asp-for="SubHeader" /><br />
-</form>
+    <form method="post" class="active" name="@Model.Slug">
+        <label asp-for="MainHeader">Main header</label><br />
+        <input asp-for="MainHeader" /><br />
+        <label asp-for="SubHeader">Sub header</label><br />
+        <input asp-for="SubHeader" /><br />
+        <div><a class="remove_block" href="#">Remove</a></div>
+    </form>

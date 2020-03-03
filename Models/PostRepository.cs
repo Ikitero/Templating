@@ -25,6 +25,12 @@ namespace Templating.Models
             }
             return posts;
         }
+        public void RemovePost(int postId)
+        {
+            var record = _context.Posts.FirstOrDefault(r => r.Id == postId);
+            _context.Remove(record);
+            _context.SaveChanges();
+        }
         public void CreatePost(string data)
         {
             var post = _context.Posts.OrderByDescending(p => p.Id).FirstOrDefault();
@@ -75,14 +81,14 @@ namespace Templating.Models
                     tmp[1] = lines[i].Split("   ")[1];
                     if (lines[i].Split("   ")[0].Contains("Url"))
                     {
-                        model.SetAttribute<IEnumerable<string>>(tmp[0].Split(":")[1].Trim(), LoadImages(lines, ref i));
+                        model.SetAttribute<IEnumerable<string>>(tmp[0].Split(" : ")[1].Trim(), LoadImages(lines, ref i));
                         if (i >= lines.Count) return model;
                         else
                         {
                             continue;
                         }
                     }
-                    model.SetAttribute<string>(tmp[0].Split(":")[1].Trim(), tmp[1].Split(":")[1].Trim());
+                    model.SetAttribute<string>(tmp[0].Split(" : ")[1].Trim(), tmp[1].Split(" : ")[1].Trim());
                 }
             }
             return model;
@@ -93,7 +99,7 @@ namespace Templating.Models
 
             while (index < lines.Count && lines[index].Split("   ")[0].Contains("Url"))
             {
-                images.Add(lines[index].Split("   ")[1].Split(":")[1].Trim());
+                images.Add(lines[index].Split("   ")[1].Split(" : ")[1].Trim());
                 index++;
             }
             index--;

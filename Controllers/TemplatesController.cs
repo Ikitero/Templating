@@ -23,15 +23,17 @@ namespace Templating.Controllers
         {
             _postRepository = new PostRepository(_context);
             var post = _postRepository.Posts();
-            List<TemplateViewModel> models = new List<TemplateViewModel>();
+            List<List<TemplateViewModel>> models = new List<List<TemplateViewModel>>();            
             foreach(var t in post)
             {
+                List<TemplateViewModel> tmp = new List<TemplateViewModel>();
                 foreach(var m in t.Templates)
                 {
-                    models.Add(JsonConvert.DeserializeObject<TemplateViewModel>(m.Json));
+                    tmp.Add(JsonConvert.DeserializeObject<TemplateViewModel>(m.Json));
                 }
+                models.Add(tmp);
             }
-            Tuple<List<Post>, List<TemplateViewModel>> model = new Tuple<List<Post>, List<TemplateViewModel>>(post, models);
+            Tuple<List<Post>, List<List<TemplateViewModel>>> model = new Tuple<List<Post>, List<List<TemplateViewModel>>>(post, models);
             return View("List", model);
         }
 
@@ -48,7 +50,7 @@ namespace Templating.Controllers
             return PartialView(templateName,model);
         }
 
-        public IActionResult Create(int id)
+        public IActionResult Create()
         {
             return View();
         }
@@ -65,6 +67,13 @@ namespace Templating.Controllers
                 await _context.SaveChangesAsync();
                 _postRepository.CreatePost(data);
             }
+            return RedirectToAction("List");
+        }
+
+        public IActionResult Remove(int postId)
+        {
+            _postRepository = new PostRepository(_context);
+            _postRepository.RemovePost(postId);
             return View("Create");
         }
     }
