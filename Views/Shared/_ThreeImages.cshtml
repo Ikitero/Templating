@@ -1,11 +1,12 @@
 ﻿@model TemplateViewModel
 
-    <form method="post" class="active" name="@Model.Slug">
-        <label asp-for="ImageUrl">Url1</label>
-        <input asp-for="ImageUrl" type="text" /><br />
-        <label asp-for="ImageUrl">Url2</label>
-        <input asp-for="ImageUrl" type="text" /><br />
-        <label asp-for="ImageUrl">Url3</label>
-        <input asp-for="ImageUrl" type="text" /><br />
-        <div><a class="remove_block" href="#">Remove</a></div>
-    </form>
+<form method="post" class="active" name="@Model.Slug">
+    <input type="hidden" value="@Model.Slug" name="Slug" />
+    <label>Url1</label>
+    <input name="ImageUrl" /><br />
+    <label>Url2</label>
+    <input name="ImageUrl" /><br />
+    <label>Url3</label>
+    <input name="ImageUrl" /><br />
+    <a class="remove_block" href="#">Remove</a>
+</form>

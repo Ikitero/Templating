@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,15 +20,15 @@ namespace Templating.Controllers
             _context = context;
         }
 
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
             _postRepository = new PostRepository(_context);
             var post = _postRepository.Posts();
-            List<List<TemplateViewModel>> models = new List<List<TemplateViewModel>>();            
-            foreach(var t in post)
+            List<List<TemplateViewModel>> models = new List<List<TemplateViewModel>>();
+            foreach (var t in post)
             {
                 List<TemplateViewModel> tmp = new List<TemplateViewModel>();
-                foreach(var m in t.Templates)
+                foreach (var m in t.Templates)
                 {
                     tmp.Add(JsonConvert.DeserializeObject<TemplateViewModel>(m.Json));
                 }
